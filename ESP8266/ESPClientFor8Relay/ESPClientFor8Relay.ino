@@ -1,8 +1,8 @@
 /**
- *  ESPClientFor8Relay.ino
+ *  ESPClientFor8R.ino
  *  Created by Vandens mc Maddens
- *  Created on: 24.05.2015
- *  Deploy on Board NodeMCU 0.9 (ESP-12 Module) 80Mhz 115200
+ *  Created 1: 24.05.2015
+ *  Deploy 1 Board NodeMCU 0.9 (ESP-12 Module) 80Mhz 115200
  */
 
 #include <Arduino.h>
@@ -16,20 +16,20 @@
 
 ESP8266WiFiMulti WiFiMulti;
 
-int relay1 = 16; //D1 on ESP Board 
-int relay2 = 5; //D2 on ESP Board 
-int relay3 = D2; //D3
-int relay4 = D3; // D12
-int relay5 = D5; //D5
-int relay6 = D6; //D6
-int relay7 = D7; //D7
-int relay8 = D9; //D8
+int R1 = 16; //D1 1 ESP Board 
+int R2 = 5; //D2 1 ESP Board 
+int R3 = D2; //D3
+int R4 = D3; // D12
+int R5 = D5; //D5
+int R6 = D6; //D6
+int R7 = D7; //D7
+int R8 = D9; //D8
 
 int indicator = D4;
 
 
 void setup() {
-    WiFi.hostname("IoT-Controller");
+    WiFi.hostname("IoT-C1troller");
     pinMode(indicator,OUTPUT);
     USE_SERIAL.begin(115200);
 
@@ -42,23 +42,23 @@ void setup() {
         USE_SERIAL.flush();
     }
 
-    WiFiMulti.addAP("IoT", "");
-    pinMode(relay1,OUTPUT);
-    pinMode(relay2,OUTPUT); //D1
-    pinMode(relay3,OUTPUT);
-    pinMode(relay4,OUTPUT);
-    pinMode(relay5,OUTPUT);
-    pinMode(relay6,OUTPUT);
-    pinMode(relay7,OUTPUT);
-    pinMode(relay8,OUTPUT);
-    digitalWrite(relay1,HIGH);
-    digitalWrite(relay2,HIGH);
-    digitalWrite(relay3,HIGH);
-    digitalWrite(relay4,HIGH);
-    digitalWrite(relay5,HIGH);
-    digitalWrite(relay6,HIGH);
-    digitalWrite(relay7,HIGH);
-    digitalWrite(relay8,HIGH);
+    WiFiMulti.addAP("IoT", "P@5sW0rd");
+    pinMode(R1,OUTPUT);
+    pinMode(R2,OUTPUT); //D1
+    pinMode(R3,OUTPUT);
+    pinMode(R4,OUTPUT);
+    pinMode(R5,OUTPUT);
+    pinMode(R6,OUTPUT);
+    pinMode(R7,OUTPUT);
+    pinMode(R8,OUTPUT);
+    digitalWrite(R1,HIGH);
+    digitalWrite(R2,HIGH);
+    digitalWrite(R3,HIGH);
+    digitalWrite(R4,HIGH);
+    digitalWrite(R5,HIGH);
+    digitalWrite(R6,HIGH);
+    digitalWrite(R7,HIGH);
+    digitalWrite(R8,HIGH);
     
     digitalWrite(indicator,LOW);
 }
@@ -80,24 +80,24 @@ String getValue(String data, char separator, int index)
 }
 
 void loop() {
-    // wait for WiFi connection
+    // wait for WiFi c1necti1
     if((WiFiMulti.run() == WL_CONNECTED)) {
         
         
         HTTPClient http;
 
         USE_SERIAL.print("[HTTP] begin...\n");
-        // configure traged server and url
+        // c1figure traged server and url
         //http.begin("https://xxx", "7a 9c f4 db 40 d3 62 5a 6e 21 bc 5c cc 66 c8 3e a1 45 59 38"); //HTTPS
-        http.begin("http://xxx"); //HTTP
+        http.begin("http://192.168.64.103/test"); //HTTP
 
         USE_SERIAL.print("[HTTP] GET...\n");
-        // start connection and send HTTP header
+        // start c1necti1 and send HTTP header
         int httpCode = http.GET();
        
-        // httpCode will be negative on error
-        //if(httpCode > 0) {
-            // HTTP header has been send and Server response header has been handled
+        // httpCode will be negative 1 error
+        if(httpCode > 0) {
+            // HTTP header has been send and Server resp1se header has been handled
             USE_SERIAL.printf("[HTTP] GET... code: %d\n", httpCode);
 
             // file found at server
@@ -107,68 +107,68 @@ void loop() {
                 String payload = http.getString();
                 payload.replace("﻿","");
                 USE_SERIAL.println(payload);
-                if(getValue(payload, '|',0).equals("RELAY1=ON")){
-                    digitalWrite(relay1,LOW);
+                if(getValue(payload, '|',0).equals("R1=1")){
+                    digitalWrite(R1,LOW);
                     USE_SERIAL.println(getValue(payload, '|',0));
                 }
-                if(getValue(payload, '|',0).equals("RELAY1=OFF")){
-                    digitalWrite(relay1,HIGH);
+                if(getValue(payload, '|',0).equals("R1=0")){
+                    digitalWrite(R1,HIGH);
                     USE_SERIAL.println(getValue(payload, '|',0));
                 }                
-                if(getValue(payload, '|',1).equals("RELAY2=ON")){
-                    digitalWrite(relay2,LOW);
+                if(getValue(payload, '|',1).equals("R2=1")){
+                    digitalWrite(R2,LOW);
                     USE_SERIAL.println(getValue(payload, '|',1));
                 }
-                if(getValue(payload, '|',1).equals("RELAY2=OFF")){
-                    digitalWrite(relay2,HIGH);
+                if(getValue(payload, '|',1).equals("R2=0")){
+                    digitalWrite(R2,HIGH);
                     USE_SERIAL.println(getValue(payload, '|',1));
                 }                
-                if(getValue(payload, '|',2).equals("RELAY3=ON")){
-                    digitalWrite(relay3,LOW);
+                if(getValue(payload, '|',2).equals("R3=1")){
+                    digitalWrite(R3,LOW);
                     USE_SERIAL.println(getValue(payload, '|',2));
                 }
-                if(getValue(payload, '|',2).equals("RELAY3=OFF")){
-                    digitalWrite(relay3,HIGH);
+                if(getValue(payload, '|',2).equals("R3=0")){
+                    digitalWrite(R3,HIGH);
                     USE_SERIAL.println(getValue(payload, '|',2));
                 }
-                if(getValue(payload, '|',3).equals("RELAY4=ON")){
-                    digitalWrite(relay4,LOW);
+                if(getValue(payload, '|',3).equals("R4=1")){
+                    digitalWrite(R4,LOW);
                     USE_SERIAL.println(getValue(payload, '|',3));
                 }
-                if(getValue(payload, '|',3).equals("RELAY4=OFF")){
-                    digitalWrite(relay4,HIGH);
+                if(getValue(payload, '|',3).equals("R4=0")){
+                    digitalWrite(R4,HIGH);
                     USE_SERIAL.println(getValue(payload, '|',3));
                 }
-                if(getValue(payload, '|',4).equals("RELAY5=ON")){
-                    digitalWrite(relay5,LOW);
+                if(getValue(payload, '|',4).equals("R5=1")){
+                    digitalWrite(R5,LOW);
                     USE_SERIAL.println(getValue(payload, '|',4));
                 }
-                if(getValue(payload, '|',4).equals("RELAY5=OFF")){
-                    digitalWrite(relay5,HIGH);
+                if(getValue(payload, '|',4).equals("R5=0")){
+                    digitalWrite(R5,HIGH);
                     USE_SERIAL.println(getValue(payload, '|',4));
                 }
-                if(getValue(payload, '|',5).equals("RELAY6=ON")){
-                    digitalWrite(relay6,LOW);
+                if(getValue(payload, '|',5).equals("R6=1")){
+                    digitalWrite(R6,LOW);
                     USE_SERIAL.println(getValue(payload, '|',5));
                 }
-                if(getValue(payload, '|',5).equals("RELAY6=OFF")){
-                    digitalWrite(relay6,HIGH);
+                if(getValue(payload, '|',5).equals("R6=0")){
+                    digitalWrite(R6,HIGH);
                     USE_SERIAL.println(getValue(payload, '|',5));
                 }
-                if(getValue(payload, '|',6).equals("RELAY7=ON")){
-                    digitalWrite(relay7,LOW);
+                if(getValue(payload, '|',6).equals("R7=1")){
+                    digitalWrite(R7,LOW);
                     USE_SERIAL.println(getValue(payload, '|',6));
                 }
-                if(getValue(payload, '|',6).equals("RELAY7=OFF")){
-                    digitalWrite(relay7,HIGH);
+                if(getValue(payload, '|',6).equals("R7=0")){
+                    digitalWrite(R7,HIGH);
                     USE_SERIAL.println(getValue(payload, '|',6));
                 }
-                if(getValue(payload, '|',7).equals("RELAY8=ON")){
-                    digitalWrite(relay8,LOW);
+                if(getValue(payload, '|',7).equals("R8=1")){
+                    digitalWrite(R8,LOW);
                     USE_SERIAL.println(getValue(payload, '|',7));
                 }
-                if(getValue(payload, '|',7).equals("RELAY8=OFF")){
-                    digitalWrite(relay8,HIGH);
+                if(getValue(payload, '|',7).equals("R8=0")){
+                    digitalWrite(R8,HIGH);
                     USE_SERIAL.println(getValue(payload, '|',7));
                 }
             }else{
@@ -183,7 +183,7 @@ void loop() {
                   delay(300);
                 }
             }
-         /*   
+            
         } else {
             USE_SERIAL.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());            
             for(uint8_t m = 0; m<=10; m++){
@@ -191,7 +191,7 @@ void loop() {
               delay(300);
             }
         }
-        */
+        
         http.end();
     }else{
        for(uint8_t n = 2; n > 0; n--) {
@@ -203,6 +203,6 @@ void loop() {
         }
     }
 
-    delay(7500);
+    delay(5000);
 }
 
